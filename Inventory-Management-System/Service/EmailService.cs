@@ -31,7 +31,7 @@ namespace Inventory_Management_System.Service
             await smtp.SendMailAsync(message);
         }
 
-        public async Task SendEmailsAsync(List<string> toEmails, string subject, string body)
+        public async Task SendEmailsAsync(IQueryable<string> toEmails, string subject, string body)
         {
             string fromEmail = config["EmailSettings:FromEmail"];
             string password = config["EmailSettings:EmailPassword"];
@@ -44,11 +44,31 @@ namespace Inventory_Management_System.Service
                 Credentials = new NetworkCredential(fromEmail, password)
             };
 
-            foreach (string toEmail in toEmails)
+            int size = 100;
+            int skip = 0;
+            List<string> emails;
+            do
             {
-                MailMessage message = new MailMessage(fromEmail, toEmail, subject, body);
-                await smtp.SendMailAsync(message);
-            }
+                emails = toEmails.Skip(skip)
+                    .Take(size)
+                    .ToList();
+
+                foreach (string e in emails)
+                {
+                    try
+                    {
+                        using var message = new MailMessage(fromEmail, e, subject, body);
+                        await smtp.SendMailAsync(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Failed to send email to {e}: {ex.Message}");
+                    }
+                }
+
+                skip += size;
+            } while (emails.Any());
+                        
         }
     }
 

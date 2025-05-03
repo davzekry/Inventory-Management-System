@@ -44,11 +44,10 @@ namespace Inventory_Management_System.Service
                 //serviceUnitOfWork.EmailService.SendEmailAsync(); 
                 string message = $"Product: {product.Name} Need to be ReStock Current Quantity is {product.Quantity}, Threshold is {product.LowStockThreshold}";
 
-                List<string> emails = unitOfWork.UserRepo
-                                      .GetAllWithFilter(x=>true)
-                                      .Select(x=>x.Email)
-                                      .ToList();
-
+                IQueryable<string> emails = unitOfWork.UserRepo
+                                      .GetAllWithFilter(x => true)
+                                      .Select(x => x.Email);
+                                      
                 EmailService.SendEmailsAsync(emails, $"Shortage Product({product.Name}", message);
             }
 
@@ -81,10 +80,9 @@ namespace Inventory_Management_System.Service
                 //serviceUnitOfWork.EmailService.SendEmailAsync(); 
                 string message = $"Product: {product.Name} Need to be ReStock Current Quantity is {product.Quantity}, Threshold is {product.LowStockThreshold}";
 
-                List<string> emails = unitOfWork.UserRepo
+                IQueryable<string> emails = unitOfWork.UserRepo
                                      .GetAllWithFilter(x => true)
-                                     .Select(x => x.Email)
-                                     .ToList();
+                                     .Select(x => x.Email);
 
                 EmailService.SendEmailsAsync(emails, $"Shortage Product({product.Name}", message);
             }

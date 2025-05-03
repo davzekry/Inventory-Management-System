@@ -149,6 +149,12 @@ namespace Inventory_Management_System
                 Cron.Daily
             );
 
+            RecurringJob.AddOrUpdate<IBackGroundService>(
+                "archive-old-transaction",
+                x => x.ArchiveTransactionData(),
+                Cron.Weekly
+            );
+
 
             app.MapControllers();
 

@@ -10,6 +10,7 @@ namespace Inventory_Management_System.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
         public DbSet<TransactionType> TransactionTypes { get; set; }
+        public DbSet<TransactionArchive> TransactionArchives { get; set; }
 
 
         public InventoryContext(DbContextOptions<InventoryContext> options):base(options) { }

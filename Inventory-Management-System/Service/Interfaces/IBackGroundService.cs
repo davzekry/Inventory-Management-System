@@ -3,6 +3,7 @@
     public interface IBackGroundService
     {
         public Task CheckLowStockProductsAsync();
+        public Task ArchiveTransactionData();
 
     }
 }

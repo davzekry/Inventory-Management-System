@@ -10,6 +10,7 @@ namespace Inventory_Management_System.Data
         private IProductRepository _ProductRepo;
         private ITransactionRepository _TransactionRepo;
         private IUserRepository _UserRepo;
+        private ITransactionArchiveRepository _TransactionArchiveRepo;
 
         public UnitOfWork(InventoryContext ctx)
         {
@@ -46,6 +47,18 @@ namespace Inventory_Management_System.Data
                 return _UserRepo;
             }
         }
+
+        public ITransactionArchiveRepository TransactionArchiveRepo
+        {
+            get
+            {
+                if (_TransactionArchiveRepo == null)
+                    _TransactionArchiveRepo = new TransactionArchiveRepository(context);
+                return _TransactionArchiveRepo;
+            }
+        }
+
+
         public void save()
         {
             context.SaveChanges();

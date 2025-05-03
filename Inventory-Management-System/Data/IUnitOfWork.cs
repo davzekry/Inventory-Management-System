@@ -7,7 +7,7 @@ namespace Inventory_Management_System.Data
         public IProductRepository ProductRepo { get; }
         public ITransactionRepository TransactionRepo {  get; }
         public IUserRepository UserRepo {  get; }
-
+        public ITransactionArchiveRepository TransactionArchiveRepo {  get; }
         public void save();
     }
 }
