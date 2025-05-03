@@ -18,7 +18,8 @@ namespace Inventory_Management_System.Service
         public IEnumerable<DTOProductDetails> GetAllProducts(int page, int noOfItems)
         {
             return unitOfWork.ProductRepo
-                .GetAllWithFilter(x=>true, page, noOfItems)
+                .GetAllWithFilter(x=>true)
+                .Skip((page - 1) * noOfItems).Take(noOfItems)
                 .Select(x => new DTOProductDetails
                 {
                     Id = x.Id,
@@ -49,7 +50,7 @@ namespace Inventory_Management_System.Service
         }
 
         // 3- Add product
-        public async Task AddProduct(DTOAddProduct product)
+        public async Task AddProductAsync(DTOAddProduct product)
         {
             await unitOfWork.ProductRepo.AddAsync(new Product
             {
@@ -63,7 +64,7 @@ namespace Inventory_Management_System.Service
         }
 
         // 4- Edit product
-        public async Task<bool> EditProduct(int Id, DTOEditProduct product)
+        public async Task<bool> EditProductAsync(int Id, DTOEditProduct product)
         {
             return await unitOfWork.ProductRepo
                 .UpdateAsync(x=>x.Id == Id, new Product
@@ -78,7 +79,7 @@ namespace Inventory_Management_System.Service
         }
 
         // 5- Delete product
-        public async Task<bool> DeleteProduct(int Id)
+        public async Task<bool> DeleteProductAsync(int Id)
         {
             return await unitOfWork.ProductRepo
                 .Delete(x => x.Id == Id);
@@ -89,7 +90,8 @@ namespace Inventory_Management_System.Service
         {
             return unitOfWork.ProductRepo
                 .GetAllWithFilter(x => x.Quantity < x.LowStockThreshold && 
-                                  (catId == 0 ? true : x.CategoryId == catId), page, noOfItems)
+                                  (catId == 0 ? true : x.CategoryId == catId))
+                .Skip((page - 1) * noOfItems).Take(noOfItems)
                 .Select(x=>new DTOProductBelowThreshold
                 {
                     Name = x.Name,

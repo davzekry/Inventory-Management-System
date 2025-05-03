@@ -40,7 +40,7 @@ namespace Inventory_Management_System.Controllers
         [HttpPost]
         public async Task<ActionResult> AddProduct(DTOAddProduct product)
         {
-            await serviceUnitOfWork.ProductService.AddProduct(product);
+            await serviceUnitOfWork.ProductService.AddProductAsync(product);
             serviceUnitOfWork.save();
 
             return Ok("Product Added Successfully!");
@@ -50,7 +50,7 @@ namespace Inventory_Management_System.Controllers
         [HttpPut("{Id:int}")]
         public async Task<ActionResult> EditProduct(int Id, DTOEditProduct product)
         {
-            bool success = await serviceUnitOfWork.ProductService.EditProduct(Id, product);
+            bool success = await serviceUnitOfWork.ProductService.EditProductAsync(Id, product);
             if(!success)
                 return BadRequest();
 
@@ -63,7 +63,7 @@ namespace Inventory_Management_System.Controllers
         [HttpDelete("{id:int}")]
         public async Task<ActionResult> DeleteProduct(int id)
         {
-            bool success = await serviceUnitOfWork.ProductService.DeleteProduct(id);
+            bool success = await serviceUnitOfWork.ProductService.DeleteProductAsync(id);
             if (!success)
                 return BadRequest(new {Error = "Product Not Found!" });
             serviceUnitOfWork.save();

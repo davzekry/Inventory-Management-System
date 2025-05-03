@@ -25,7 +25,7 @@ namespace Inventory_Management_System.Controllers
             try
             {
                 transaction.AppUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                await serviceUnitOfWork.TransactionService.AddStock(transaction);
+                await serviceUnitOfWork.TransactionService.AddStockAsync(transaction);
             
                 serviceUnitOfWork.save();
                 return Ok(transaction);
@@ -42,7 +42,7 @@ namespace Inventory_Management_System.Controllers
             try
             {
                 transaction.AppUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                bool success = await serviceUnitOfWork.TransactionService.RemoveStock(transaction);
+                bool success = await serviceUnitOfWork.TransactionService.RemoveStockAsync(transaction);
 
                 serviceUnitOfWork.save();
                 return Ok(transaction);
@@ -61,7 +61,7 @@ namespace Inventory_Management_System.Controllers
             try
             {
                 transaction.AppUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-                await serviceUnitOfWork.TransactionService.TransferStock(transaction);
+                await serviceUnitOfWork.TransactionService.TransferStockAsync(transaction);
                 
                 serviceUnitOfWork.save();
                 return Ok(transaction);

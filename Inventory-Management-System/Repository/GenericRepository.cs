@@ -41,9 +41,9 @@ namespace Inventory_Management_System.Repository
 
         ///  <summary>
         ///  It's a Generic Method to Get All Items With Filter
-        public IQueryable<TEntity> GetAllWithFilter(Expression<Func<TEntity, bool>> expression, int page = 1, int noOfItems = 10)
+        public IQueryable<TEntity> GetAllWithFilter(Expression<Func<TEntity, bool>> expression)
         {
-            return _InventoryContext.Set<TEntity>().Where(expression).Skip((page - 1) * noOfItems).Take(noOfItems);
+            return _InventoryContext.Set<TEntity>().Where(expression);
         }
         /// <summary>
         /// Return a Nullable Item Of Entity

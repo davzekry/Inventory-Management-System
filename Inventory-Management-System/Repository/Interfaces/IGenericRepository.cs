@@ -10,7 +10,7 @@ namespace Inventory_Management_System.Repository.Interfaces
         Task<bool> UpdateAsync(Expression<Func<TEntity, bool>> Predicate, TEntity entity);
         Task<TEntity?> GetItemAsync(Expression<Func<TEntity, bool>> expression);
         Task<IEnumerable<TEntity>> GetAllAsync(int page = 1, int amount = 10);
-        IQueryable<TEntity> GetAllWithFilter(Expression<Func<TEntity, bool>> expression, int page = 1, int amount = 10);
+        IQueryable<TEntity> GetAllWithFilter(Expression<Func<TEntity, bool>> expression);
 
     }
 }

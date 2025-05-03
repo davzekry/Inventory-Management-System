@@ -20,7 +20,7 @@ namespace Inventory_Management_System.Service
         }
 
 
-        public async Task<bool> AddStock(DTOAddTransaction transaction)
+        public async Task<bool> AddStockAsync(DTOAddTransaction transaction)
         {
             Product product = await unitOfWork.ProductRepo
                                    .GetItemAsync(x=>x.Id == transaction.ProductId);
@@ -55,7 +55,7 @@ namespace Inventory_Management_System.Service
             return true;
         }
 
-        public async Task<bool> RemoveStock(DTORemoveTransaction transaction)
+        public async Task<bool> RemoveStockAsync(DTORemoveTransaction transaction)
         {
             Product? product = await unitOfWork.ProductRepo
                                     .GetItemAsync(x => x.Id == transaction.ProductId);
@@ -92,7 +92,7 @@ namespace Inventory_Management_System.Service
             return true;
         }
 
-        public async Task<bool> TransferStock(DTOTransferTransaction transaction)
+        public async Task<bool> TransferStockAsync(DTOTransferTransaction transaction)
         {
             Product product = await unitOfWork.ProductRepo
                                     .GetItemAsync(x => x.Id == transaction.ProductId);
@@ -123,9 +123,10 @@ namespace Inventory_Management_System.Service
                     (!categoryId.HasValue || x.Product.CategoryId == categoryId) &&
                     (!transactionTypeId.HasValue || x.TransactionTypeId == transactionTypeId) &&
                     (!startDate.HasValue || x.Date >= startDate) &&
-                    (!endDate.HasValue || x.Date <= endDate),
-                    page, noOfItems
-                    ).Select(x=> new DTOTransactionHistory
+                    (!endDate.HasValue || x.Date <= endDate)
+                    ).Skip((page - 1) * noOfItems)
+                    .Take(noOfItems)
+                    .Select(x=> new DTOTransactionHistory
                     {
                         Amount = x.Amount,
                         AppUserName = x.AppUser.UserName,

@@ -103,6 +103,7 @@ namespace Inventory_Management_System
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<IServiceUnitOfWork, ServiceUnitOfWork>();
             builder.Services.AddScoped<IEmailService, EmailService>();
+            builder.Services.AddScoped<IBackGroundService, BackGroundService>();
 
             // Add Hangfire Service
             builder.Services.AddHangfire(config =>
@@ -142,9 +143,9 @@ namespace Inventory_Management_System
             // Hangfire 
             app.UseHangfireDashboard();
 
-            RecurringJob.AddOrUpdate<IInventoryCheckerService>(
+            RecurringJob.AddOrUpdate<IBackGroundService>(
                 "low-stock-check",
-                x => x.CheckLowStockAsync(),
+                x => x.CheckLowStockProductsAsync(),
                 Cron.Daily
             );
 
